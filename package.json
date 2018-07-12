@@ -1,0 +1,29 @@
+{
+  "name": "example-api",
+  "version": "1.0.0",
+  "description": "Example API with node js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arshakt/example-api.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "Arshak Tunyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arshakt/example-api/issues"
+  },
+  "homepage": "https://github.com/arshakt/example-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.3",
+    "morgan": "^1.9.0"
+  }
+}
