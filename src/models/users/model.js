@@ -4,7 +4,16 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const userSchema = require('./schema')
 
+const tokenLib = require('../../lib/token')
 const userModel = mongoose.model('Users', userSchema, 'users')
+
+function listAllUsers(){
+  return userModel.find({})
+}
+
+function getUserById(userId){
+  return userModel.findOne({_id: userId})
+}
 
 function createUser(createData){
   return userModel.create(createData).then((user)=>({userId: user._id}))
@@ -22,14 +31,34 @@ function loginUser(loginData) {
           if(!result){
             return Promise.reject(new Error('wrong credentials'))
           }
-          user.token = crypto.createHash('sha256').update(email, new Date()).digest('hex')
+          user.token = tokenLib.generateToken(user._id)
           return user.save()
         })
         .then((user)=>({token: user.token}))
     })
 }
 
+function updateUser(userId, updateData){
+  let { name, email, password } = updateData
+
+  return userModel.findOne({_id: userId})
+    .then((user)=>{
+      if(user){
+        user.set({ name, email, password })
+      }
+      return user.save()
+    })
+}
+
+function deleteUser(userId){
+  return userModel.remove({_id: userId})
+}
+
 module.exports = {
+  listAllUsers,
+  getUserById,
   createUser,
-  loginUser
+  loginUser,
+  updateUser,
+  deleteUser
 }
